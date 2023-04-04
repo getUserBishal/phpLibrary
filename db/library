@@ -1,0 +1,180 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `library`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `adminid` int(11) NOT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`adminid`, `username`, `password`) VALUES
+(1, 'admin', 'admin123');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `book`
+--
+
+CREATE TABLE `book` (
+  `bookid` int(11) NOT NULL,
+  `bookname` varchar(50) DEFAULT NULL,
+  `author` varchar(50) DEFAULT NULL,
+  `published` varchar(50) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `image` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `book`
+--
+
+INSERT INTO `book` (`bookid`, `bookname`, `author`, `published`, `stock`, `description`, `image`) VALUES
+(1, 'How to win friends and influence people', 'Dale Carnegie', '1936', 9, 'How to Win Friends and Influence People is a self-help book written by Dale Carnegie, published in 1936. Over 30 million copies have been sold worldwide, making it one of the best-selling books of all time.', 'how to win friends.jpg'),
+(2, 'The intelligent investor', 'Benjamin Graham', '1949', 7, 'The Intelligent Investor by Benjamin Graham, first published in 1949, is a widely acclaimed book on value investing. The book teaches readers strategies on how to successfully use value investing in the stock market. Historically, the book has been one of the most popular books on investing and Graham’s legacy remains.', 'the intelligent investor.jpg'),
+(7, 'Rich Dad Poor Dad', 'Robert Kiyosaki and Sharon Letchter', '1997', 1, 'Rich Dad Poor Dad is a 1997 book written by Robert Kiyosaki and Sharon Lechter. It advocates the importance of financial literacy, financial independence and building wealth through investing in assets and real estate investing. ', 'rich dad poor dad.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `borrow`
+--
+
+CREATE TABLE `borrow` (
+  `borrowid` int(11) NOT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `bookid` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `borrow`
+--
+
+INSERT INTO `borrow` (`borrowid`, `userid`, `bookid`, `date`) VALUES
+(11, 2, 2, '2021-09-20'),
+(12, 1, 2, '2021-09-20'),
+(13, 1, 1, '2021-09-20'),
+(26, 1, 7, '2021-09-21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `userid` int(11) NOT NULL,
+  `firstname` varchar(50) DEFAULT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
+  `address` varchar(50) DEFAULT NULL,
+  `phoneNo` bigint(20) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`userid`, `firstname`, `lastname`, `address`, `phoneNo`, `email`, `username`, `password`) VALUES
+(1, 'Bibek', 'Shrestha', 'Sydney, Australia', 4003839393, 'bibekrajs7@gmail.com', 'bibek', 'bibek123'),
+(2, 'Saroj', 'Lammichhane', 'Sydney, Australia', 4800837383, 'saroj@gmail.com', 'saroj', 'saroj123');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`adminid`);
+
+--
+-- Indexes for table `book`
+--
+ALTER TABLE `book`
+  ADD PRIMARY KEY (`bookid`);
+
+--
+-- Indexes for table `borrow`
+--
+ALTER TABLE `borrow`
+  ADD PRIMARY KEY (`borrowid`),
+  ADD KEY `userid` (`userid`),
+  ADD KEY `bookid` (`bookid`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`userid`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `adminid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `book`
+--
+ALTER TABLE `book`
+  MODIFY `bookid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `borrow`
+--
+ALTER TABLE `borrow`
+  MODIFY `borrowid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `borrow`
+--
+ALTER TABLE `borrow`
+  ADD CONSTRAINT `borrow_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`userid`),
+  ADD CONSTRAINT `borrow_ibfk_2` FOREIGN KEY (`bookid`) REFERENCES `book` (`bookid`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
